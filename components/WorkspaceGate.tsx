@@ -4,5 +4,5 @@ import AppShell from '@/components/AppShell';
 
 export default async function WorkspaceGate({ children, active }: {children: React.ReactNode; active: 'dashboard' | 'studio'}) {
   const data = await getWorkspace();
-  return <WorkspaceProvider data={data} key={data.userEmail || 'demo'}><AppShell active={active}>{children}</AppShell></WorkspaceProvider>;
+  return <WorkspaceProvider data={data} key={data.userId || 'guest'}><AppShell active={active}>{children}</AppShell></WorkspaceProvider>;
 }

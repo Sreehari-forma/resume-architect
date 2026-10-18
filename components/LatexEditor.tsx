@@ -1,6 +1,7 @@
 'use client';
 import { Check, Copy } from 'lucide-react';
 import { useState } from 'react';
+import { useWorkspace } from '@/lib/store';
 
 function HighlightedLine({text}:{text:string}) {
   const tokens=text.split(/(\\[a-zA-Z]+\*?|\\[^a-zA-Z]|[{}\[\]]|%.*$)/g);
@@ -8,9 +9,11 @@ function HighlightedLine({text}:{text:string}) {
 }
 
 export default function LatexEditor({code}:{code:string}) {
+  const { isGuest,requestAuth }=useWorkspace();
   const [copied,setCopied]=useState(false);
   const [error,setError]=useState('');
   async function copy() {
+    if(isGuest){requestAuth('export');return;}
     try { await navigator.clipboard.writeText(code); setCopied(true);setError('');setTimeout(()=>setCopied(false),2200); }
     catch {setError('Clipboard access is unavailable. Select the code below and copy it manually.');}
   }

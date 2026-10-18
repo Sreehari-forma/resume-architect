@@ -73,5 +73,9 @@ export interface TailoredResume {
 export interface WorkspaceData {
   profile: UserProfile;
   isDemo: boolean;
+  isGuest: boolean;
+  authConfigured: boolean;
+  userId: string | null;
+  hasSavedProfile: boolean;
   userEmail: string | null;
 }
