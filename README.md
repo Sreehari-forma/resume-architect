@@ -4,7 +4,7 @@ A complete Next.js application with a premium dark interface, an interactive Rea
 
 ## Run locally
 
-Requires Node.js 22+ and npm.
+Requires Node.js 24.x and npm, matching the runtime declared for Vercel.
 
 ```sh
 cd resume-architect
@@ -14,6 +14,8 @@ npm run dev
 ```
 
 Open **http://127.0.0.1:3000**. Missing or partial Supabase configuration keeps the application in a clearly labeled local demo. A fictional profile is supplied; edit it in the Master Vault, save, then use “Try a sample job” in the studio. Demo tailoring runs in the browser, reorders original achievements and skills, and calculates keyword coverage. It does **not** call or imitate a live AI service. Demo profiles are saved to this browser only. A blocked storage permission is reported by the editor.
+
+The environment template now targets `https://resume-architect-seven.vercel.app`. For local authentication or API testing, set `NEXT_PUBLIC_APP_URL=http://127.0.0.1:3000` in your local environment and restart. Production keeps the HTTPS origin from the template.
 
 The landing page’s role switcher and resume are illustrative. Studio results use the current saved profile and supplied job description. A generated result is held in the current studio view; live generated resumes are also stored in Supabase. A resume-history interface is not included.
 
@@ -156,6 +158,7 @@ The HTML preview shares the content and section order with the export; it is not
 
 ```sh
 npm run typecheck
+npm run lint
 npm test
 npm run build
 npm start
@@ -163,7 +166,9 @@ npm start
 
 Tests cover the Gemini endpoint, credentials, model selection, structured response validation and provider error handling using mocked HTTP responses, plus missing/partial Supabase configuration, escaping and injection attempts, URL preservation, keyword boundaries, profile bounds, provider URL allowlists, bounded reads, origin checks, source references, numeric preservation and valid grounded rewrites. The test runner enables the React server condition to load the server-only AI module. Browser checks cover the no-key demo workflow. Supabase account flows, RLS execution and live Gemini requests require your configured environment and are not exercised by the local unit suite.
 
-Deploy to a Node-capable Next.js host such as Vercel or a container/service; static export is not supported because the application uses Server Actions and API routes. Set the production environment, run the schema migration, configure the Supabase redirect allowlist, and build. Keep the runtime timeout at least 60 seconds for AI generation. Set `NEXT_PUBLIC_APP_URL` to the canonical origin. The application is delivered as source and a local preview; it has not been publicly deployed.
+Deploy to a Node-capable Next.js host such as Vercel or a container/service; static export is not supported because the application uses Server Actions and API routes. Set the production environment, run the schema migration, configure the Supabase redirect allowlist, and build. Keep the runtime timeout at least 60 seconds for AI generation. Set `NEXT_PUBLIC_APP_URL` to the canonical origin. Local verification does not verify the live deployment's environment or authentication settings.
+
+See [DEPLOYMENT.md](./DEPLOYMENT.md) for the Vercel project settings, environment-variable scopes, production validation, and Supabase callback setup. Route-level function timeouts are already configured; no `vercel.json` is needed.
 
 There is no payment integration. The landing feature grid advertises the available local demo and account workflow without fictitious subscription checkout.
 

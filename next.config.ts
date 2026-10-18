@@ -1,4 +1,10 @@
 import type { NextConfig } from 'next';
+import { validateProductionEnvironment } from './lib/env/production';
+
+// Local builds keep the credential-free demo. A live Vercel production deploy
+// must fail early with setting names instead of serving a broken workspace.
+if (process.env.VERCEL_ENV === 'production') validateProductionEnvironment(process.env);
+
 const config: NextConfig = {
   outputFileTracingRoot: process.cwd(),
   poweredByHeader: false,

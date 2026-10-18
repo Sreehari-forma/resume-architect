@@ -2,13 +2,14 @@ import 'server-only';
 import { createClient } from '@/lib/supabase/server';
 import { hasSupabaseConfig } from '@/lib/supabase/config';
 import { HttpError } from '@/lib/http';
+import { getGeminiEnvironment } from '@/lib/env/server';
 
 const demoWindows = new Map<string, { expires: number; count: number }>();
 
 export async function apiContext(action: 'tailor' | 'extract') {
   if (!hasSupabaseConfig()) {
     // Provider quota must never be exposed through an unauthenticated endpoint.
-    if (process.env.GEMINI_API_KEY?.trim()) throw new HttpError(503, 'Connect Supabase authentication before enabling AI requests.');
+    if (getGeminiEnvironment().apiKey) throw new HttpError(503, 'Connect Supabase authentication before enabling AI requests.');
     const now = Date.now();
     const current = demoWindows.get(action);
     const window = current && current.expires > now ? current : { expires: now + 60000, count: 0 };

@@ -33,7 +33,7 @@ test('absent, partial, and whitespace-only Supabase settings retain the demo/set
   for (const config of incomplete) {
     withConfig(config, () => {
       assert.equal(hasSupabaseConfig(), false);
-      assert.throws(() => supabaseConfig(), /Supabase is not configured/);
+      assert.throws(() => supabaseConfig(), /NEXT_PUBLIC_SUPABASE_/);
     });
   }
 });

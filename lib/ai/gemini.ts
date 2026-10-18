@@ -4,19 +4,24 @@ import { zodResponseFormat } from 'openai/helpers/zod';
 import type { UserProfile } from '@/types';
 import { tailoringPlanSchema, type TailoringPlan } from '@/lib/schemas';
 import { HttpError } from '@/lib/http';
+import { requireGeminiEnvironment } from '@/lib/env/server';
+import { EnvironmentError } from '@/lib/env/validation';
 import { summarySentences } from './assemble';
 import { RESUME_SYSTEM_PROMPT } from './prompt';
 
 const GEMINI_BASE_URL = 'https://generativelanguage.googleapis.com/v1beta/openai/';
-const DEFAULT_MODEL = 'gemini-3.8-flash';
 
 /** The OpenAI SDK is only a transport here: all requests go to Google Gemini. */
 export async function generateTailoringPlan(profile: UserProfile, jobDescription: string): Promise<TailoringPlan> {
-  const apiKey = process.env.GEMINI_API_KEY?.trim();
-  if (!apiKey) throw new HttpError(503, 'AI generation is not configured. Add GEMINI_API_KEY to .env.local on the server and restart the app.');
+  let config: ReturnType<typeof requireGeminiEnvironment>;
+  try { config = requireGeminiEnvironment(); }
+  catch (error) {
+    if (error instanceof EnvironmentError) throw new HttpError(503, error.message);
+    throw error;
+  }
 
   const client = new OpenAI({
-    apiKey,
+    apiKey: config.apiKey,
     baseURL: GEMINI_BASE_URL,
     organization: null,
     project: null,
@@ -26,7 +31,7 @@ export async function generateTailoringPlan(profile: UserProfile, jobDescription
 
   try {
     const completion = await client.chat.completions.parse({
-      model: process.env.GEMINI_MODEL?.trim() || DEFAULT_MODEL,
+      model: config.model,
       reasoning_effort: 'low',
       max_tokens: 12000,
       messages: [

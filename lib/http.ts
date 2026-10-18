@@ -1,13 +1,20 @@
+import { getServerAppOrigin } from '@/lib/env/server';
+import { EnvironmentError, isLoopbackHostname } from '@/lib/env/validation';
+
 export class HttpError extends Error {
   constructor(public status: number, message: string) { super(message); }
 }
 
 export function assertSameOrigin(request: Request): void {
   const origin = request.headers.get('origin');
-  const configuredOrigin = process.env.NEXT_PUBLIC_APP_URL;
+  let configuredOrigin: string | undefined;
   let expected: string;
-  try { expected = new URL(configuredOrigin || request.url).origin; }
-  catch { throw new HttpError(503, 'The application URL is not configured correctly.'); }
+  try {
+    configuredOrigin = getServerAppOrigin();
+    expected = configuredOrigin || new URL(request.url).origin;
+  } catch (error) {
+    throw new HttpError(503, error instanceof EnvironmentError ? error.message : 'NEXT_PUBLIC_APP_URL is not configured correctly.');
+  }
   if (origin === expected) return;
   // Next's development request URL can use localhost even when the browser
   // opened 127.0.0.1. Only bridge known loopback aliases, without expanding the
@@ -16,8 +23,7 @@ export function assertSameOrigin(request: Request): void {
     try {
       const supplied = new URL(origin);
       const canonical = new URL(expected);
-      const loopback = new Set(['localhost', '127.0.0.1', '[::1]']);
-      if (supplied.origin === origin && loopback.has(supplied.hostname) && loopback.has(canonical.hostname)
+      if (supplied.origin === origin && isLoopbackHostname(supplied.hostname) && isLoopbackHostname(canonical.hostname)
           && supplied.protocol === canonical.protocol && supplied.port === canonical.port) return;
     } catch { /* Malformed Origin headers fail the same-origin check below. */ }
   }
@@ -61,8 +67,8 @@ export async function readJson(request: Request, maximum = 120000): Promise<unkn
 }
 
 export function errorResponse(error: unknown): Response {
-  const status = error instanceof HttpError ? error.status : 500;
-  const message = error instanceof HttpError ? error.message : 'Something went wrong. Please try again.';
+  const status = error instanceof HttpError ? error.status : error instanceof EnvironmentError ? 503 : 500;
+  const message = error instanceof HttpError || error instanceof EnvironmentError ? error.message : 'Something went wrong. Please try again.';
   return Response.json({ error: message }, {
     status, headers: { 'Cache-Control': 'no-store', ...(status === 429 ? { 'Retry-After': '3600' } : {}) },
   });
