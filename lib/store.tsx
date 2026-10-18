@@ -8,6 +8,7 @@ import type { TailoredResume, UserProfile, WorkspaceData } from '@/types';
 import { profileSchema } from '@/lib/schemas';
 import { importGuestProfile } from '@/app/actions/profile';
 import AuthGateModal from '@/components/AuthGateModal';
+import { useI18n } from '@/lib/i18n';
 import {
   EMPTY_STUDIO, clearImportedDraft, draftBelongsToEmail, newGuestDraft,
   readAccountStudio, readGuestDraft, updateGuestDraft, writeAccountStudio, writeGuestDraft,
@@ -86,6 +87,7 @@ function createWorkspaceStore(data: WorkspaceData) {
 const WorkspaceContext = createContext<ReturnType<typeof createWorkspaceStore> | null>(null);
 
 export function WorkspaceProvider({ children, data }: {children: React.ReactNode; data: WorkspaceData}) {
+  const { t } = useI18n();
   const pathname = usePathname();
   const storeRef = useRef<ReturnType<typeof createWorkspaceStore> | null>(null);
   if (!storeRef.current) storeRef.current = createWorkspaceStore(data);
@@ -139,15 +141,15 @@ export function WorkspaceProvider({ children, data }: {children: React.ReactNode
 
   return <WorkspaceContext.Provider value={store}>
     {state.hydrated && state.importState !== 'pending' ? <>
-      {state.importMessage && <div className="draft-recovery" role="status"><p>{state.importMessage}</p><div>
-        {state.importState === 'error' && state.guestDraft && <button className="button button-secondary" onClick={() => void importDraft(state.guestDraft!)}>Retry saving</button>}
-        {pathname === '/dashboard' && ['error', 'conflict'].includes(state.importState) && <button className="button button-secondary" onClick={openGuestDraft}>Open guest CV</button>}
-        {['editing', 'error', 'conflict'].includes(state.importState) && <Link className="button button-secondary" href="/dashboard">Edit profile</Link>}
-        {state.importState === 'saved' && <Link className="button button-secondary" href="/studio">Continue to studio</Link>}
+      {state.importMessage && <div className="draft-recovery" role="status"><p>{t(state.importMessage)}</p><div>
+        {state.importState === 'error' && state.guestDraft && <button className="button button-secondary" onClick={() => void importDraft(state.guestDraft!)}>{t('Retry saving')}</button>}
+        {pathname === '/dashboard' && ['error', 'conflict'].includes(state.importState) && <button className="button button-secondary" onClick={openGuestDraft}>{t('Open guest CV')}</button>}
+        {['editing', 'error', 'conflict'].includes(state.importState) && <Link className="button button-secondary" href="/dashboard">{t('Edit profile')}</Link>}
+        {state.importState === 'saved' && <Link className="button button-secondary" href="/studio">{t('Continue to studio')}</Link>}
       </div></div>}
-      {state.draftStorageError && <div className="draft-recovery" role="alert">{state.draftStorageError}</div>}
+      {state.draftStorageError && <div className="draft-recovery" role="alert">{t(state.draftStorageError)}</div>}
       {children}
-    </> : <main className="workspace-restoring" id="main-content" role="status">{state.importMessage || 'Restoring your workspace…'}</main>}
+    </> : <main className="workspace-restoring" id="main-content" role="status">{t(state.importMessage || 'Restoring your workspace…')}</main>}
     {state.authIntent && <AuthGateModal intent={state.authIntent} configured={data.authConfigured} onClose={() => store.setState({ authIntent: null })} />}
   </WorkspaceContext.Provider>;
 }

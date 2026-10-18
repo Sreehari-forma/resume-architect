@@ -8,7 +8,7 @@ import { credentialsSchema } from '@/lib/schemas';
 import { getAuthCallbackUrl } from '@/lib/env/server';
 import { EnvironmentError } from '@/lib/env/validation';
 
-type AuthResult = { error?: string; message?: string };
+type AuthResult = { error?: string; message?: string; rawError?: boolean };
 
 export async function signIn(formData: FormData): Promise<AuthResult> {
   if (!hasSupabaseConfig()) return { error: 'Authentication is not configured. Keep editing as a guest or connect Supabase.' };
@@ -30,7 +30,7 @@ export async function signUp(formData: FormData): Promise<AuthResult> {
   catch (error) { return { error: error instanceof EnvironmentError ? error.message : 'NEXT_PUBLIC_APP_URL is not configured correctly.' }; }
   const supabase = await createClient();
   const { data, error } = await supabase.auth.signUp({ ...result.data, options: { emailRedirectTo: callback } });
-  if (error) return { error: error.message };
+  if (error) return { error: error.message, rawError: true };
   if (data.session) { revalidatePath('/', 'layout'); redirect('/dashboard'); }
   return { message: 'Check your inbox for a confirmation link, then sign in to your workspace.' };
 }

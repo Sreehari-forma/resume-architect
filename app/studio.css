@@ -155,3 +155,33 @@
 @media(max-width:680px) {.studio-columns {grid-template-columns:1fr;gap:20px;} .studio-page-heading {align-items:start;margin-bottom:24px;} .studio-page-heading h1 {font-size:27px;max-width:290px;line-height:1.2;} .studio-page-heading p {font-size:10px;line-height:1.8;max-width:280px;} .studio-page-heading>.button {font-size:0;width:34px;padding:8px;} .studio-page-heading>.button svg:last-child {display:none;} .studio-stepbar {gap:9px;font-size:8px;justify-content:space-between;padding-bottom:17px;margin-bottom:20px;} .studio-stepbar>i {width:12px;} .studio-stepbar>div {gap:5px;} .studio-stepbar>div>span {width:17px;height:17px;font-size:7px;} .job-panel {padding:20px;} .job-textarea {min-height:210px;font-size:12px;} .input-tabs button {font-size:11px;} .input-meta {font-size:9px;} .input-meta button {font-size:9px;} .profile-source strong {font-size:12px;} .profile-source small {font-size:10px;} .generate-button {font-size:12px;} .generation-note {font-size:9px;} .analysis-panel {padding:20px;} .score-summary {gap:17px;} .score-summary h3 {font-size:13px;} .score-summary p {font-size:11px;} .score-caption {font-size:8px;} .keyword {font-size:10px;} .keyword-heading {font-size:8px;} .keyword-disclaimer,.keyword-toggle {font-size:10px;} .analysis-heading h2 {font-size:13px;} .studio-aside-note {display:none;} .resume-stage {padding:3px 19px 23px;} .resume-paper {min-height:620px;} .resume-paper h2 {font-size:25px;} .highlights-heading>span:last-child {display:none;} .highlight-items p {font-size:10px;} .output-footer {font-size:7px;} .output-footer button {font-size:8px;} }
 @media(max-width:380px) {.studio-stepbar {font-size:7px;} .studio-stepbar>i {display:none;} .studio-page-heading h1 {font-size:25px;} .resume-paper {padding:25px 19px;font-size:7px;} .resume-paper h4 {font-size:7.7px;} .resume-dates {font-size:6px;} .document-status {display:none;} }
 @media print {.workspace-sidebar,.workspace-topbar,.workspace-footer,.studio-page-heading,.studio-stepbar,.studio-input-column,.output-header,.resume-toolbar,.output-footer,.tailoring-highlights,.stale-notice,.skip-link {display:none!important;} .workspace-shell,.workspace-body,.workspace-main,.studio-columns,.studio-output-column,.output-panel,.resume-stage {display:block!important;padding:0!important;margin:0!important;border:0!important;box-shadow:none!important;background:white!important;} body {background:white;color:black;} .resume-paper {box-shadow:none;font-size:10pt;min-height:0;padding:0;} .resume-paper h2 {font-size:24pt;} .resume-paper h3 {font-size:11pt;} .resume-paper h4 {font-size:10pt;} .resume-dates,.resume-contact,.resume-paper .resume-company {font-size:9pt;} @page {size:A4;margin:16mm;} }
+
+/* The demo mark is part of the preview and stays visible when printing. */
+.resume-paper {position:relative;isolation:isolate;overflow:hidden;}
+.resume-watermark {position:absolute;z-index:2;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-32deg);font-family:Arial,Helvetica,sans-serif;font-weight:700;font-size:clamp(90px,12vw,170px);letter-spacing:-.06em;color:rgba(80,70,110,.17);pointer-events:none;user-select:none;line-height:1;white-space:nowrap;}
+.final-download-panel {padding:18px 0 3px;display:flex;flex-direction:column;gap:12px;}
+.final-download-panel>div:first-child {display:flex;align-items:center;gap:8px;color:#a9a1c9;}
+.final-download-panel p {font-size:11px;margin:0;line-height:1.6;}
+.final-download-actions {display:flex;flex-wrap:wrap;gap:9px;justify-content:flex-end;}
+.final-download-actions .button {font-size:11px;min-height:40px;}
+.payment-modal {position:fixed;inset:0;margin:auto;width:min(490px,calc(100vw - 32px));max-height:calc(100dvh - 48px);overflow:auto;background:#111523;border:1px solid #3a3853;border-radius:18px;color:#e5e4ef;padding:35px;box-shadow:0 35px 130px #0009;}
+.payment-modal::backdrop {background:#040710bb;backdrop-filter:blur(7px);}
+.payment-close {position:absolute;top:13px;right:13px;}
+.payment-symbol {height:46px;width:46px;display:flex;align-items:center;justify-content:center;background:#a294ff14;border:1px solid #a294ff33;border-radius:12px;color:#b9adfa;margin-bottom:20px;}
+.payment-modal h2 {font-size:25px;font-weight:500;letter-spacing:-.6px;line-height:1.2;margin:0 25px 12px 0;}
+.payment-modal>p {font-size:12px;color:#969bb0;line-height:1.7;}
+.payment-currencies {border:0;padding:0;margin:24px 0 12px;display:flex;gap:9px;}
+.payment-currencies legend {font-size:11px;color:#aaa5c4;padding:0 0 10px;}
+.payment-currencies label {flex:1;min-width:0;position:relative;padding:14px 8px;border:1px solid #33354a;border-radius:9px;cursor:pointer;text-align:center;display:flex;flex-direction:column;gap:6px;}
+.payment-currencies label.selected {background:#a294ff12;border-color:#9d8bdf;}
+.payment-currencies input {position:absolute;top:8px;left:8px;accent-color:#a294ff;width:10px;height:10px;}
+.payment-currencies strong {font-size:19px;font-weight:500;margin-top:10px;}
+.payment-currencies span {font-size:9px;color:#9690aa;}
+.payment-modal .payment-price-note {font-size:10px;color:#7d8299;}
+.payment-submit {width:100%;margin-top:20px;font-size:12px;}
+.payment-submit svg:last-child {margin-left:auto;}
+.payment-secure {display:flex;align-items:center;justify-content:center;gap:6px;color:#8a95ab;font-size:10px;margin-top:13px;}
+.payment-modal .payment-free-note {font-size:11px;text-align:center;border-top:1px solid #292d40;padding-top:20px;margin-top:22px;}
+.payment-keep-editing {width:100%;margin-top:9px;font-size:11px;}
+@media(max-width:480px) {.payment-modal{padding:28px 22px;}.payment-currencies{gap:6px;}.final-download-actions{flex-direction:column;}.final-download-actions .button{width:100%;}.resume-watermark{font-size:105px;}}
+@media print {.final-download-panel,.payment-modal{display:none!important;}.resume-watermark{position:fixed;font-size:110pt;color:rgba(80,70,110,.17)!important;-webkit-print-color-adjust:exact;print-color-adjust:exact;}}

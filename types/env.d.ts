@@ -12,6 +12,9 @@ declare global {
       // Server-only: never prefix these credentials with NEXT_PUBLIC_.
       GEMINI_API_KEY?: string;
       GEMINI_MODEL?: string;
+      STRIPE_SECRET_KEY?: string;
+      STRIPE_WEBHOOK_SECRET?: string;
+      SUPABASE_SERVICE_ROLE_KEY?: string;
       VERCEL_ENV?: string;
       VERCEL_URL?: string;
       VERCEL_PROJECT_PRODUCTION_URL?: string;

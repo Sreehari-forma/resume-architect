@@ -44,6 +44,21 @@ What you bring
 • Clear communication and collaboration across engineering, product, and design.
 • Familiarity with PostgreSQL, AWS, and CI/CD is a plus.`;
 
+export const SAMPLE_JOB_DESCRIPTION_PL = `Starszy inżynier frontendu · Linear Labs
+Tworzymy narzędzia, które pomagają ambitnym zespołom pracować lepiej. Dołącz do zespołu produktowego i rozwijaj szybkie, przemyślane aplikacje SaaS.
+
+Twoje zadania
+• Budowanie responsywnych aplikacji z użyciem React, Next.js, TypeScript i Tailwind CSS.
+• Współpraca z projektantami w Figma oraz rozwój systemu komponentów.
+• Dbanie o dostępność, wydajność i testy z wykorzystaniem Jest oraz Playwright.
+• Integracja GraphQL i REST API oraz wspieranie rozwoju innych inżynierów.
+
+Nasze oczekiwania
+• Doświadczenie we wdrażaniu aplikacji React i mierzalnym wpływie na produkt.
+• Dobra znajomość JavaScript, HTML, CSS i Git.
+• Jasna komunikacja i współpraca między zespołami technicznymi, produktowymi i projektowymi.
+• Znajomość PostgreSQL, AWS oraz CI/CD będzie dodatkowym atutem.`;
+
 export function profileCompleteness(profile: UserProfile): number {
   const checks = [Boolean(profile.fullName.trim()), Boolean(profile.title.trim()), Boolean(profile.email.trim()),
     Boolean(profile.location.trim()), Boolean(profile.summary.trim()),

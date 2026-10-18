@@ -7,6 +7,7 @@ if (process.env.VERCEL_ENV === 'production') validateProductionEnvironment(proce
 
 const config: NextConfig = {
   outputFileTracingRoot: process.cwd(),
+  outputFileTracingIncludes: { '/api/resumes/**': ['./assets/fonts/*.ttf'] },
   poweredByHeader: false,
   experimental: { serverActions: { bodySizeLimit: '256kb' } },
   async headers() {

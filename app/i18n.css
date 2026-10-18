@@ -1,0 +1,13 @@
+.language-toggle{display:inline-flex;align-items:center;gap:2px;flex-shrink:0;border:1px solid var(--border,#2b303b);border-radius:8px;padding:3px;background:rgba(255,255,255,.025)}
+.language-toggle button{border:0;background:transparent;color:#9ca3af;min-width:31px;min-height:30px;border-radius:5px;padding:5px;font-size:10px;font-weight:700;cursor:pointer;letter-spacing:.04em}
+.language-toggle button[aria-pressed=true]{background:rgba(135,128,245,.18);color:#e5e1ff}
+.language-toggle button:focus-visible{outline:2px solid #aaa2ff;outline-offset:2px}
+.language-toggle>span{font-size:10px;color:#666d7c}
+.workspace-topbar-actions{display:flex!important;align-items:center;gap:14px!important}
+.auth-header-actions{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.auth-header-actions .auth-back{margin-bottom:0}
+.auth-header-actions{margin-bottom:48px}
+.land-price-detail{display:block;font-size:12px;line-height:1.7;color:#9da1ad;margin-top:9px}
+@media(max-width:600px){.land-header-actions{gap:8px!important}.land-header-actions .land-sign-in{display:none}.workspace-topbar-actions{gap:7px!important}.workspace-topbar-actions .workspace-status{font-size:9px}.auth-header-actions{margin-bottom:32px}.land-brand-descriptor{display:none}}
+
+.land-document-watermark{position:absolute;z-index:2;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-32deg);font-family:Arial,Helvetica,sans-serif;font-weight:700;font-size:88px;letter-spacing:-.06em;color:rgba(80,70,110,.17);pointer-events:none;user-select:none;line-height:1;white-space:nowrap}
